@@ -1,0 +1,153 @@
+'''Question 1'''
+'''For any web application login, the user password needs to be validated against the database rules. 
+For the My UMKC web application the following criteria are for a valid password:'''
+#The password length should be in the range of 6-16 characters
+#Should have at least one number
+#Should have one special character in [$@!*]
+#Should have one lowercase and one uppecase character
+#exceptions check for everything as a number/letter/four special characters
+
+'''Import Libraries'''
+import string
+import sys
+
+'''Functions'''
+#a) function to find length of characters (you can use the built in function len)
+# len(string)
+#b) function to find the number of integers in a string
+def numInt(string):#define function
+    count = 0 #initialize count
+    for character in range(0, len(string)):
+        if(string[character].isdigit()):
+            count += 1
+    return count
+
+#c) function to find the number of special characters [$ @ ! *] in a string
+def numSpecChar(string):#define function
+
+    count = 0 #initialize count
+    for character in range(0, len(string)):
+        if(string[character] == '$'):
+            count += 1
+        if(string[character] == '@'):
+            count += 1
+        if(string[character] == '!'):
+            count += 1
+        if(string[character] == '*'):
+            count += 1
+    return count
+
+#d1) function to find the number of uppercase characters in a string
+def numUpper(string):#define function
+    count = 0 #initialize count
+    for character in range(0,len(string)):
+        if(string[character].isupper):
+            count += 1
+    return count
+
+#d2) function to find the number of lowercase characters in a string
+def numLower(string):#define function
+    count = 0 #initialize count
+    for character in range(0,len(string)):
+        if(string[character].islower):
+            count += 1
+    return count
+
+#function to check for alien characters
+#3 functions to check
+#check 0-9
+#check a-Z
+#check $!@*
+
+#check to see if character is between 0-9
+def check09(character): #define function
+    check = False #initialize check
+    for i in string.digits:
+        if character == i:
+            check = True
+    return check
+
+#check to see if character is between a-Z
+def checkaZ(character): #define function
+    check = False #initialize check
+    for i in string.ascii_letters:
+        if character == i:
+            check = True
+    return check
+
+#check to see if character is $!@*
+def checkSpec(character): #define function
+    check = False #initialize check
+    if character == '$' or character == '!' or character == '@' or character == '*':
+        check = True
+    return check
+
+#function to check for alien characters
+def checkAlien(string): #define function
+    check = 1 #initialize check
+    for character in range(0,len(string)):
+        if(
+            not check09(string[character])
+            and not checkaZ(string[character])
+            and not checkSpec(string[character])
+        ):
+            check *= 0
+    return check
+
+'''Variables'''
+#userPassword
+userPassword = None
+
+#check variable for while loop
+passwordCheck = True
+
+#stores prompt user for password
+comparePassword = None
+
+'''Choose a password program'''
+#while conditions are not met continue loop
+#prompt user for password
+#if more than or equal to 6 or less than or equal to 16
+#and number of integers is equal or more than 1
+#and special character is equal equal to 1
+#and more than or equal to one lowercase
+#and more than or equal to one uppercase
+
+#while conditions are not met continue loop
+while passwordCheck:
+    print("Password requirements: ")
+    print("The password length should be in the range of 6-16 characters")
+    print("Should have at least one number")
+    print("Should have one special character in [$@!*]")
+    print("Should have one lowercase and one uppercase character")
+#prompt user for password
+    userPassword = str(input('Input Desired password: '))
+#if more than or equal to 6 and less than or equal to 16
+    if(len(userPassword) >= 6 and len(userPassword) <= 16):
+# and number of integers is equal or more than 1
+        if(numInt(userPassword) >= 1 ):
+# and special character is equal equal to 1
+            if(numSpecChar(userPassword) >= 1):
+# and more than or equal to one lowercase
+                if(numLower(userPassword) >= 1):
+# and more than or equal to one uppercase
+                    if(numUpper(userPassword) >= 1):
+# and no foreign/Alien characters are found
+                        if(checkAlien(userPassword)):
+                            passwordCheck = False
+    if passwordCheck == True:
+        print("Sorry you can't use that password")
+
+
+'''Enter your password to access your account'''
+#while password is not correct continue loop
+#if password is equal equal to chosen password
+
+passwordCheck = True
+while passwordCheck:
+    comparePassword = str(input('Login using your new password: '))
+    if(comparePassword == userPassword):
+        print("Congratulations, you've accessed your account!")
+        passwordCheck = False
+    else:
+        print('Please try again')
